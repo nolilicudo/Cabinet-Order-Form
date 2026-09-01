@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: cabinet-order-app
+    env: node
+    plan: free # Change this to starter/standard if needed
+    branch: main
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false # You will provide this in the Render dashboard
+      - key: JWT_SECRET
+        generateValue: true # Render will automatically generate a random string for this

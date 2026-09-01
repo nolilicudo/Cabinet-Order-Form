@@ -1,0 +1,168 @@
+# Project TODO
+
+- [x] Restore the Woodoo cabinet order application after the workspace reset.
+- [x] Restore the source-backed Woodoo MSRP catalog, configuration filters, and price-lock safeguards.
+- [x] Restore customer details, draft order creation, line-item building, status workflow, and order management.
+- [x] Restore dashboard View, Edit, Duplicate, printing, and CSV export flows.
+- [x] Run TypeScript and Vitest validation after recovery.
+- [x] Validate approved existing orders across Draft, Verified, and Submitted states.
+- [x] Save a final restorable project checkpoint and deliver the application.
+- [x] Replace the Manus account sign-in screen with a Woodoo site PIN gate using a server-side session.
+- [x] Store the Woodoo site PIN as a managed application secret rather than client-side source code.
+- [x] Gate catalog and order-management procedures behind the Woodoo PIN session.
+- [x] Add a refined PIN entry screen and sign-out action to the Woodoo operations interface.
+- [x] Test PIN access, session protection, and sign-out behavior before release.
+- [x] Create a representative saved order and verify its dashboard row shows View, Edit, and Duplicate actions.
+- [x] Verify the representative order supports read-only viewing, editing, duplication, printing, CSV export, verification, and submission.
+- [x] Explicitly capture evidence that the representative order transitions from Draft to Verified before submission.
+- [x] Re-run CSV export validation and confirm the representative order sheet was downloaded.
+- [x] Explicitly validate the representative order Print action with observable browser evidence.
+- [x] Diagnose why the new-order page queries the protected Woodoo catalog before the PIN session is recognized.
+- [x] Prevent protected catalog and order queries from firing until the Woodoo PIN session is ready.
+- [x] Test PIN unlock followed by direct navigation to the new-order page without a session-query error.
+- [x] Document the confirmed root cause of the premature protected catalog query and the route-gate resolution.
+- [x] Save and deliver the repaired PIN-session handling.
+- [x] Define deletion safeguards for saved Woodoo orders and related order-line records.
+- [x] Add a PIN-protected backend mutation that deletes an order and its line items atomically.
+- [x] Add a destructive-action confirmation dialog to the dashboard and order-detail views.
+- [x] Refresh dashboard and order views after a successful deletion and provide clear success/error feedback.
+- [x] Add and run Vitest coverage for deletion authorization, order-line cleanup, and missing-order behavior.
+- [x] Validate deleting a representative order through the PIN-gated browser workflow.
+- [x] Verify and document the delete confirmation flow from the dashboard row action and the read-only order-view route.
+- [x] Add and verify a user-facing error message when a deletion request fails or the order no longer exists.
+- [x] Verify the delete flow against a missing-order scenario and confirm an explicit not-found message is shown to the user.
+- [x] Save and deliver the order-deletion feature.
+- [x] Remove the client-side Woodoo PIN screen, route gate, and lock control.
+- [x] Make catalog and order-management procedures accessible without a Woodoo PIN session.
+- [x] Retire unused PIN-session code and tests while preserving the public ordering workflow.
+- [x] Verify direct public access to the dashboard, new-order page, catalog, and order-detail routes.
+- [x] Save and deliver the public-access Woodoo application.
+- [x] Publish checkpoint cd4ebd68 so the live Woodoo domain receives the latest public-access and U.S. Cabinet Depot version.
+- [x] Confirm the published Woodoo domain no longer displays the retired PIN screen.
+- [x] Analyze the attached U.S. Cabinet Depot cabinet order form and extract its order, finish, and configuration logic.
+- [x] Add U.S. Cabinet Depot catalog and pricing support without altering source-backed Woodoo MSRP records.
+- [x] Add an order-sheet supplier selector and U.S. Cabinet Depot line-item workflow.
+- [x] Build a side-by-side finish comparison sheet that calculates package totals from the selected cabinet items.
+- [x] Make comparison results clear enough for customer-facing cabinet-finish conversations and printable/exportable use.
+- [x] Add tests for supplier-specific price resolution and finish-comparison package totals.
+- [x] Validate the U.S. Cabinet Depot workflow with values from the attached order form.
+- [x] Save and deliver the U.S. Cabinet Depot ordering and pricing-comparison update.
+- [x] Define supplier-specific delivery and freight fields, formulas, and package-total behavior.
+- [x] Add configurable U.S. Cabinet Depot delivery and freight inputs to the package comparison and exports.
+- [x] Add saved U.S. Cabinet Depot package list, edit, duplicate, and delete actions.
+- [x] Add a customer-ready finish-comparison proposal PDF download that includes cabinet, finish, freight, and package totals.
+- [x] Add tests for freight totals, saved-package management, and proposal output data.
+- [x] Validate the enhanced U.S. Cabinet Depot workflow in the browser and through the test suite.
+- [x] Save and deliver the completed freight, package-management, and proposal enhancements.
+- [x] Extract U.S. Cabinet Depot and Woodoo SKU images, labels, dimensions, and layout descriptions from the attached visual catalogs.
+- [x] Map visual SKU catalog entries to source-backed Woodoo and U.S. Cabinet Depot product records, flagging unmatched assets for review.
+- [x] Define and present three streamlined cabinet-selection workflow options for users without cabinet-building experience.
+- [x] Add image references, dimensions, cabinet layout descriptions, and source pricing to supplier-specific cabinet detail APIs.
+- [x] Build a visual quick-selection flow with optional walkthroughs, plain-language explainers, and layout images.
+- [x] Validate image-to-SKU matching, price integrity, and novice-friendly selection behavior in the browser.
+- [x] Save and deliver the visual cabinet-selection experience and workflow recommendation.
+- [x] Default the U.S. Cabinet Depot quick-selection gallery to Base Cabinets so first-time users begin with common cabinet choices instead of accessories.
+- [x] Add a compact mobile selected-cabinet tray so users can reach the handoff action without scrolling through the visual catalog.
+- [x] Add Woodoo cabinet-group filters to the visual Quick Select workflow.
+- [x] Group similar Woodoo cabinet styles into compact family cards with source-priced size choices and fast add controls.
+- [x] Validate grouped Woodoo cards preserve exact SKU, configuration, and MSRP pricing during order handoff.
+- [x] Add automated coverage for U.S. Cabinet Depot saved-package load, update, duplicate, and delete behavior.
+- [x] Verify and test the proposal PDF payload includes cabinet lines, finish comparisons, delivery, freight, and package totals.
+- [x] Run and record the full test suite after final freight, saved-package, and proposal updates.
+- [x] Add automated coverage for saved-package load/reopen hydration and update behavior.
+- [x] Add router-level saved-package create, load, update, duplicate, and delete procedure coverage with mocked persistence.
+- [x] Constrain the U.S. Cabinet Depot catalog results to a scrollable panel so customer comparison controls remain accessible on long catalogs.
+- [x] Expose all U.S. Cabinet Depot cabinet groups in the catalog filter rather than only groups present in the first result page.
+- [x] Add a visible Woodoo-versus-U.S.-Cabinet-Depot supplier selector that switches ordering context from the main order workflow.
+- [x] Validate supplier switching in the browser and confirm each workflow uses its corresponding source-priced catalog.
+- [x] Analyze available supplier style identifiers and source prices for same-layout cross-style comparisons.
+- [x] Add a same-layout comparison view that prices selected cabinet layouts across available door styles and finishes.
+- [x] Group U.S. Cabinet Depot visual Quick Select items into shared layout cards with in-card size choices and fast add controls.
+- [x] Preserve exact source SKU, style/finish price, and supplier-specific handoff from grouped U.S. Cabinet Depot cards.
+- [x] Add and run automated coverage for same-layout style comparisons and U.S. Cabinet Depot layout grouping.
+- [x] Validate the updated comparison and U.S. Cabinet Depot Quick Select flows in the browser.
+- [x] Save and deliver the style-comparison and grouped U.S. Cabinet Depot selection update.
+- [x] Replace generic U.S. Cabinet Depot group labels with clear layout-family names on grouped quick-selection cards.
+- [x] Add explicit unit coverage for same-layout source-price comparison and grouped U.S. Cabinet Depot SKU/finish preservation.
+- [x] Test a grouped U.S. Cabinet Depot size handoff in the browser and verify its exact SKU, finish, and price in the package builder.
+- [x] Normalize every remaining U.S. Cabinet Depot grouped-card title to a concise, human-readable layout name.
+- [x] Add focused same-layout comparison source-price test coverage and document the exact returned style/finish values.
+- [x] Make the U.S. Cabinet Depot package builder’s selected-line SKU, active finish, and direct source price visibly verifiable after Quick Select handoff.
+- [x] Render explicit Quick Select handoff details—SKU, active finish, and source unit price—within the U.S. Cabinet Depot package item card.
+- [x] Add focused coverage for builder hydration of grouped U.S. Cabinet Depot handoff metadata.
+- [x] Add a component-level test that renders the U.S. Cabinet Depot package item handoff detail string.
+- [x] Capture observable browser evidence of grouped U.S. Cabinet Depot selection, exact source SKU/finish/price, and the same-layout comparison panel.
+- [x] Save explicit source-row evidence for the same-layout comparison and visible U.S. Cabinet Depot handoff details in the validation record.
+- [x] Inspect and correct the U.S. Cabinet Depot family key so 2 Drawer Base and 3 Drawer Base layouts cannot be grouped together.
+- [x] Add a regression test proving 2 Drawer Base and 3 Drawer Base source SKUs resolve to separate Quick Select cards.
+- [x] Verify distinct 2 Drawer and 3 Drawer Base cards with their own sizes and source pricing in the browser.
+- [x] Save and deliver the U.S. Cabinet Depot drawer-layout grouping correction.
+- [x] Analyze the updated Woodoo complete SKU image catalog and map its cabinet layouts to source product records.
+- [x] Generate and upload refreshed deployment-safe Woodoo Quick Select visual assets and metadata.
+- [x] Replace the Woodoo Quick Select card imagery with the updated source catalog visuals while preserving SKU and MSRP selection.
+- [x] Validate refreshed Woodoo image coverage, source-priced handoff, and responsive presentation.
+- [x] Save and deliver the updated Woodoo visual Quick Select catalog.
+- [x] Map the complete guided-order process from project inputs through final approval into clear, actionable Quick Select stages.
+- [x] Add guided project inputs for rooms, walls, and appliance openings before cabinet selection begins.
+- [x] Add ordering-stage controls for placing cabinet bodies left to right and checking wall totals and clearances.
+- [x] Turn Visual Gallery into a focused product-addition workspace with source-priced cabinet family cards.
+- [x] Turn Layout Checklist into a live in-order review checklist for fillers, panels, molding, accessories, manufacturer rules, and approvals.
+- [x] Add takeoff-versus-elevation and takeoff-versus-manufacturer-quote review checkpoints with error-resolution controls.
+- [x] Validate the complete guided workflow across desktop and mobile without altering source-controlled pricing.
+- [x] Save and deliver the guided ordering workflow update.
+- [x] Define standard appliance opening selections and custom dimension overrides for dishwasher, sink, refrigerator, range, wall oven, microwave-over-range, built-in microwave, washer, and dryer.
+- [x] Replace free-form room entry in Quick Select with Kitchen, Laundry, Kitchenette, Master Bathroom, and Custom room choices.
+- [x] Add appliance-opening cards that apply standard dimensions and allow custom width, height, and depth input.
+- [x] Make the Guided Start action label the next required workflow step and advance directly to that stage rather than the final order screen.
+- [x] Test sequential stage progression, standard appliance choices, custom appliance sizing, and room choices on desktop and mobile.
+- [x] Save and deliver the appliance and sequential guided-workflow update.
+- [x] Save a new checkpoint capturing the appliance presets, room choices, and sequential guided-workflow navigation.
+- [x] Deliver the new checkpoint with a concise summary and note that the live domain needs republishing.
+- [x] Limit Woodoo panel guidance to exposed panels and limit U.S. Cabinet Depot panel guidance to end decorative panels as needed.
+- [x] Add a wall assignment control for every selected cabinet line in Quick Select.
+- [x] Calculate and display total assigned cabinet width for each entered wall alongside its planned run and difference.
+- [x] Preserve cabinet assignments while quantities are adjusted and provide an explicit unassigned state for cabinets not yet placed on a wall.
+- [x] Add automated tests and browser validation for supplier-specific panel guidance, wall assignment, and wall-total calculations.
+- [x] Save and deliver the supplier-specific panels and wall-assignment update.
+- [x] Define a custom-cabinet pricing model for Sequoia Cabinets and RA Cabinets using box count, trim, and panel line costs.
+- [x] Add configurable custom selection forms with cabinet sizes and box counts for Sequoia Cabinets and RA Cabinets.
+- [x] Add custom All Wood Doors panel-cost inputs to the custom cabinet package calculations.
+- [x] Add installation-cost inputs and totals for Woodoo and U.S. Cabinet Depot cabinet packages.
+- [x] Include custom supplier, door-panel, trim, panel, and installation costs in package summaries and order outputs.
+- [x] Add unit tests and browser validation for custom supplier totals, All Wood Doors panels, and installation costs.
+- [x] Save and deliver the custom supplier and installation-cost enhancement.
+- [x] Add a saved custom-package output that lists box, trim, cabinet panel, All Wood Doors, installation, and grand-total amounts.
+- [x] Update the U.S. Cabinet Depot comparison summary to show installation alongside cabinets, delivery, freight, and the package total.
+- [x] Define countertop material selections for MSI and Cosentino and a material-source field for selected slabs.
+- [x] Add countertop run inputs for cabinet-top length, depth, room, and edge profile.
+- [x] Calculate countertop material at $35 per square foot and edge work at $5 per linear foot for non-eased edges.
+- [x] Persist countertop takeoffs and present a readable material, edge, and price breakdown.
+- [x] Add regression coverage and browser validation for countertop calculations and selection workflow.
+- [x] Save and deliver the countertop builder enhancement.
+- [x] Extract every MSI and Cosentino slab record from the supplied price guides for selectable backend catalog entries.
+- [x] Store supplier slab-price references and configurable countertop labor rates in the backend.
+- [x] Add per-run standard sink-cutout and vanity-sink cutout quantities priced at $100 each.
+- [x] Replace the curated countertop material list with searchable complete MSI and Cosentino catalog selection.
+- [x] Persist selected slab and labor-price snapshots on saved countertop takeoffs and show them in the output.
+- [x] Add regression coverage and browser validation for complete slab selection, labor storage, and sink-cutout charges.
+- [x] Save and deliver the complete countertop catalog and backend-pricing enhancement.
+- [x] Define simpler MSI and Cosentino material-family groups while preserving full catalog search.
+- [x] Add catalog image-reference support and visual slab cards for selection.
+- [x] Move finish choice to a post-slab-selection control and preserve the selected finish in saved takeoffs.
+- [x] Validate grouped browsing, full-text search, image fallback, and finish choice on desktop and mobile.
+- [x] Add per-material image references for the imported MSI and Cosentino slab catalog instead of supplier-wide generic visuals.
+- [x] Implement and validate explicit fallback behavior for missing or unavailable slab imagery.
+- [x] Revalidate actual slab imagery, fallback behavior, grouped browsing, search, and finish selection before delivery.
+- [x] Save and deliver the improved countertop slab-selection experience.
+- [x] Review the shared countertop form and document functional, search, and pricing workflow gaps.
+- [x] Add the useful shared-form capabilities with clearer countertop material search and selection controls.
+- [x] Improve countertop pricing presentation and calculation guidance where the shared form provides a better workflow.
+- [x] Validate the upgraded countertop experience against the shared form on desktop and mobile.
+- [ ] Save and deliver the shared-form countertop workflow enhancement.
+- [x] Add slab-dimension and thickness inputs with a slab-count, material-coverage, waste, and utilization calculation.
+- [x] Add an easy two-dimensional run layout with seam markers and a seam-placement review warning.
+- [x] Add a shared-edge question with optional separate perimeter and island edge profiles, pricing, and totals.
+- [x] Add per-window height-off-floor details to countertop runs and include them in the takeoff context.
+- [x] Add an integrated-sink option that remains off by default and is clearly separate from standard or vanity cutouts.
+- [x] Add a concise edge-cost breakout by run type and a pricing summary that explains slab, edge, trim, cutout, and waste assumptions.
+- [x] Add reusable project templates for common kitchen layouts without inserting fake customer data.

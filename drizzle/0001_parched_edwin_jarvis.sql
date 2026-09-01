@@ -1,0 +1,1 @@
+ALTER TABLE `uscd_package_items` ADD `assemblyModsNote` text;

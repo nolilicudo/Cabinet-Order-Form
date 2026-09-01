@@ -1,0 +1,11 @@
+# U.S. Cabinet Depot Validation Notes
+
+The attached `USCD_Framed_Cabinet_Order_Form_2026-08-05.xlsx` was imported as the source for the Capital Framed comparison tool. The import contains 341 products, 23 finish lines, and 7,843 product/finish source prices. Shaker White remains the direct source-price baseline; non-Shaker-White finishes are clearly labeled planning values that require Quick Order verification.
+
+Browser validation confirmed the comparison UI reprices the same selected cabinet package between finishes. For the source product `RS18-TypeA`, the tool displayed Shaker White at **$37.68** and Casselberry Antique White at **$43.78**, a **$6.10** difference, with the source workbook’s transfer-required warning shown. The full cabinet-group filter was also confirmed with the **Fillers & Panels** group, including blind base, diagonal corner sink, filler, panel, and toe-kick items.
+
+The app preserves the source workbook ordering behavior by replacing the `SW-` SKU prefix with the selected finish prefix where applicable, while leaving shared/non-prefix items unchanged. Assembly/modification content is recorded as a note, and the only manual price input is the workbook-permitted per-item add-on.
+
+The enhanced package workflow was verified with a clearly labeled temporary package. The saved package retained its source-priced cabinet, freight inputs, and customer record after save; it was then updated, duplicated, and reopened. The package editor now shows an explicit loading state while saved details are fetched instead of briefly displaying a blank form. The temporary original and duplicate packages were permanently removed with the confirmation workflow, leaving the saved-package page in its intended empty state.
+
+Automated validation now covers saved-package hydration, update payload preservation, duplication, line-item-first deletion, and missing-package handling. Proposal-content coverage verifies that the generated PDF model contains each cabinet line plus finish, cabinet subtotal, delivery, freight, and package-total values. Router-level procedure coverage confirms create, reopen, update, duplicate, and delete operations call the expected persistence seams with the intended supplier data. The final application suite completed successfully with 27 passing tests.

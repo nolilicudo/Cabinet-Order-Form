@@ -1,12 +1,14 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { cabinetDoorStyles, cabinetFinishColors, cabinetOrderStatuses, countertopSuppliers, customCabinetSuppliers } from "../drizzle/schema";
-import { COOKIE_NAME } from "../shared/const";
+import { COOKIE_NAME, ONE_YEAR_MS } from "../shared/const";
 import { countertopEdgeProfiles, countertopRunTypes, countertopSeamPreferences } from "../shared/countertopLogic";
 import * as db from "./db";
+import { hashPassword, verifyPassword } from "./password";
 import { getSessionCookieOptions } from "./_core/cookies";
+import { sdk } from "./_core/sdk";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { adminProcedure, publicProcedure, router } from "./_core/trpc";
 
 const cabinetLineSchema = z.object({ priceId: z.number().int().positive(), quantity: z.number().int().min(1).max(999) });
 const orderPayloadSchema = z.object({
@@ -34,10 +36,52 @@ export const appRouter = router({
   system: systemRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
+    login: publicProcedure
+      .input(z.object({
+        email: z.string().email().toLowerCase().trim(),
+        password: z.string().min(1),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const user = await db.getUserByEmail(input.email);
+        const invalidErr = new TRPCError({ code: "UNAUTHORIZED", message: "Invalid email or password." });
+
+        if (!user || !user.passwordHash) throw invalidErr;
+
+        const ok = await verifyPassword(input.password, user.passwordHash);
+        if (!ok) throw invalidErr;
+
+        // Update last sign-in timestamp
+        await db.upsertUser({ openId: user.openId, lastSignedIn: new Date() });
+
+        // Issue a signed JWT session cookie
+        const sessionToken = await sdk.createSessionToken(user.openId, {
+          name: user.name ?? "",
+          expiresInMs: ONE_YEAR_MS,
+        });
+        const cookieOptions = getSessionCookieOptions(ctx.req);
+        ctx.res.cookie(COOKIE_NAME, sessionToken, { ...cookieOptions, maxAge: ONE_YEAR_MS });
+
+        return { success: true, user: { id: user.id, email: user.email, name: user.name, role: user.role } };
+      }),
     logout: publicProcedure.mutation(({ ctx }) => {
       ctx.res.clearCookie(COOKIE_NAME, { ...getSessionCookieOptions(ctx.req), maxAge: -1 });
       return { success: true } as const;
     }),
+    // Admin-only: create a new user with email + password
+    createUser: adminProcedure
+      .input(z.object({
+        email: z.string().email(),
+        name: z.string().min(1).max(255),
+        password: z.string().min(8).max(128),
+        role: z.enum(["user", "admin"]).default("user"),
+      }))
+      .mutation(async ({ input }) => {
+        const existing = await db.getUserByEmail(input.email);
+        if (existing) throw new TRPCError({ code: "CONFLICT", message: "A user with that email already exists." });
+        const passwordHash = await hashPassword(input.password);
+        await db.createUserWithPassword({ email: input.email, name: input.name, passwordHash, role: input.role });
+        return { success: true };
+      }),
   }),
   catalog: router({
     list: publicProcedure.input(z.object({

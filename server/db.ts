@@ -161,6 +161,39 @@ export async function getUserByOpenId(openId: string) {
   return result[0];
 }
 
+export async function getUserByEmail(email: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.email, email.toLowerCase().trim())).limit(1);
+  return result[0];
+}
+
+export async function setUserPasswordHash(userId: number, passwordHash: string): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  await db.update(users).set({ passwordHash }).where(eq(users.id, userId));
+}
+
+export async function createUserWithPassword(input: {
+  email: string;
+  name: string;
+  passwordHash: string;
+  role?: "user" | "admin";
+}): Promise<void> {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  const openId = `local:${input.email.toLowerCase().trim()}`;
+  await db.insert(users).values({
+    openId,
+    email: input.email.toLowerCase().trim(),
+    name: input.name,
+    passwordHash: input.passwordHash,
+    loginMethod: "password",
+    role: input.role ?? "user",
+    lastSignedIn: new Date(),
+  });
+}
+
 const woodooSiteOpenId = "woodoo-site-pin-session";
 
 export async function getWoodooSiteUserId() {

@@ -13,3 +13,14 @@ services:
         sync: false # You will provide this in the Render dashboard
       - key: JWT_SECRET
         generateValue: true # Render will automatically generate a random string for this
+      # Cloudflare R2 Storage
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+      - key: R2_PUBLIC_URL
+        sync: false # Optional: only if you have a custom public domain

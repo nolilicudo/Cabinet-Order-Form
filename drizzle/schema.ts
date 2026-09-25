@@ -1,4 +1,4 @@
-import { boolean, index, int, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
+import { boolean, foreignKey, index, int, mysqlEnum, mysqlTable, text, timestamp, uniqueIndex, varchar } from "drizzle-orm/mysql-core";
 
 export const cabinetDoorStyles = ["Shaker", "Beveled", "Eyed Edge"] as const;
 export const cabinetFinishColors = ["White", "Bisque", "Walnut", "Oak"] as const;
@@ -168,7 +168,7 @@ export const customCabinetPackages = mysqlTable("custom_cabinet_packages", {
 /** A sized cabinet selection with its box-count, trim, and panel amounts. */
 export const customCabinetPackageItems = mysqlTable("custom_cabinet_package_items", {
   id: int("id").autoincrement().primaryKey(),
-  packageId: int("packageId").notNull().references(() => customCabinetPackages.id),
+  packageId: int("packageId").notNull(),
   description: varchar("description", { length: 255 }).notNull(),
   room: varchar("room", { length: 120 }).notNull(),
   widthInches: varchar("widthInches", { length: 24 }).notNull(),
@@ -181,7 +181,14 @@ export const customCabinetPackageItems = mysqlTable("custom_cabinet_package_item
   note: text("note"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-}, table => [index("custom_cabinet_package_items_package_idx").on(table.packageId)]);
+}, table => [
+  index("custom_cabinet_package_items_package_idx").on(table.packageId),
+  foreignKey({
+    name: "cc_pkg_items_pkg_id_fk",
+    columns: [table.packageId],
+    foreignColumns: [customCabinetPackages.id],
+  })
+]);
 
 /** A supplier-selected countertop material and its cabinet-top takeoff. Pricing rates are saved with the record. */
 export const countertopTakeoffs = mysqlTable("countertop_takeoffs", {
